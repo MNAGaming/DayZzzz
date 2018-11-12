@@ -94,6 +94,17 @@ class CustomMission: MissionServer
 		player.GetInventory().CreateInInventory("SodaCan_Pipsi");
 		player.GetInventory().CreateInInventory("SpaghettiCan");
 		player.GetInventory().CreateInInventory("HuntingKnife");
+		// randomized loot in Torch, Battery9V or Battery Charger:
+		switch (Math.RandomInt(0,3)) {
+			case 0: player.GetInventory().CreateInInventory("Torch"); break;
+			case 1: player.GetInventory().CreateInInventory("Battery9V"); break;
+			case 2: player.GetInventory().CreateInInventory("BatteryCharger"); break;	
+		}
+
+		// player.GetInventory().CreateInInventory("Torch");
+		// player.GetInventory().CreateInInventory("Battery9V");
+		// player.GetInventory().CreateInInventory("BatteryCharger");
+		
 		ItemBase rags = player.GetInventory().CreateInInventory("Rag");
 		rags.SetQuantity(4);
 
