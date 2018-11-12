@@ -29,43 +29,87 @@ void main()
 }
 
 class CustomMission: MissionServer
-{	
-	void SetRandomHealth(EntityAI itemEnt)
-	{
-		int rndHlt = Math.RandomInt(40,100);
-		itemEnt.SetHealth("","",rndHlt);
-	}
-
+{
 	override PlayerBase CreateCharacter(PlayerIdentity identity, vector pos, ParamsReadContext ctx, string characterName)
 	{
-		Entity playerEnt;
-		playerEnt = GetGame().CreatePlayer(identity, characterName, pos, 0, "NONE");//Creates random player
+		Entity playerEnt = GetGame().CreatePlayer(identity, characterName, pos, 0, "NONE");
 		Class.CastTo(m_player, playerEnt);
-		
 		GetGame().SelectPlayer(identity, m_player);
-		
+
 		return m_player;
 	}
-	
+
+	void addMags(PlayerBase player, string mag_type, int count)
+	{
+		if (count < 1)
+			return;
+
+		EntityAI mag;
+
+		for (int i = 0; i < count; i++) {
+			mag = player.GetInventory().CreateInInventory(mag_type);
+		}
+
+		player.SetQuickBarEntityShortcut(mag, 1, true);
+	}
+
+	EntityAI assaultClass(PlayerBase player)
+	{
+		EntityAI gun = player.GetHumanInventory().CreateInHands("M4A1");
+		gun.GetInventory().CreateAttachment("M4_RISHndgrd_Black");
+		gun.GetInventory().CreateAttachment("M4_MPBttstck_Black");
+		gun.GetInventory().CreateAttachment("ACOGOptic");
+		addMags(player, "Mag_STANAG_30Rnd", 3);
+
+		return gun;
+	}
+
+	EntityAI sniperClass(PlayerBase player)
+	{
+		EntityAI gun = player.GetHumanInventory().CreateInHands("SVD");
+		gun.GetInventory().CreateAttachment("PSO1Optic");
+		addMags(player, "Mag_SVD_10Rnd", 3);
+
+		return gun;
+	}
+
+	EntityAI smgClass(PlayerBase player)
+	{
+		EntityAI gun = player.GetHumanInventory().CreateInHands("UMP45");
+		gun.GetInventory().CreateAttachment("PistolSuppressor");
+		addMags(player, "Mag_UMP_25Rnd", 3);
+
+		return gun;
+	}
+
 	override void StartingEquipSetup(PlayerBase player, bool clothesChosen)
 	{
-
 		player.RemoveAllItems();
 
-		EntityAI item = player.GetInventory().CreateInInventory(topsArray.GetRandomElement());
-		EntityAI item2 = player.GetInventory().CreateInInventory(pantsArray.GetRandomElement());
-		EntityAI item3 = player.GetInventory().CreateInInventory(shoesArray.GetRandomElement());
+		player.GetInventory().CreateInInventory("TTSKOPants");
+		player.GetInventory().CreateInInventory("TTsKOJacket_Camo");
+		player.GetInventory().CreateInInventory("CombatBoots_Black");
+		player.GetInventory().CreateInInventory("ImprovisedBag");
 
-		EntityAI itemEnt;
-		ItemBase itemBs;
-		
-		itemEnt = player.GetInventory().CreateInInventory("Rag");
-		itemBs = ItemBase.Cast(itemEnt);
-		itemBs.SetQuantity(4);
-		SetRandomHealth(itemEnt);
+		player.GetInventory().CreateInInventory("SodaCan_Pipsi");
+		player.GetInventory().CreateInInventory("SpaghettiCan");
+		player.GetInventory().CreateInInventory("HuntingKnife");
+		ItemBase rags = player.GetInventory().CreateInInventory("Rag");
+		rags.SetQuantity(4);
 
-		itemEnt = player.GetInventory().CreateInInventory("RoadFlare");
-		itemBs = ItemBase.Cast(itemEnt);
+		EntityAI primary;
+		EntityAI axe = player.GetInventory().CreateInInventory("FirefighterAxe");
+
+		switch (Math.RandomInt(0, 3)) {
+			case 0: primary = assaultClass(player); break;
+			case 1: primary = sniperClass(player); break;
+			case 2: primary = smgClass(player); break;
+		}
+
+		player.LocalTakeEntityToHands(primary);
+		player.SetQuickBarEntityShortcut(primary, 0, true);
+		player.SetQuickBarEntityShortcut(rags, 2, true);
+		player.SetQuickBarEntityShortcut(axe, 3, true);
 	}
 };
   
