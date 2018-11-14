@@ -25,18 +25,18 @@ class ThirstMdfr: ModifierBase
 	{
 		return false;
 	}
-
-	override void OnTick(PlayerBase player, float deltaT)
-	{
-		player.GetMovementState(m_MovementState);
-		float metabolic_speed = MiscGameplayFunctions.GetWaterMetabolicSpeed(m_MovementState.m_iMovement);
-		//PrintString("metabolic_speed:"+metabolic_speed.ToString());
-		float water = player.GetStatWater().Get();
-		player.GetStatWater().Add( (-metabolic_speed * deltaT) );
+	//following changes amended 2018-11-14 based on guidance from here: https://www.reddit.com/r/dayz/comments/9i45ul/howto_disable_thirsthunger
+	// override void OnTick(PlayerBase player, float deltaT)
+	// {
+	// 	player.GetMovementState(m_MovementState);
+	// 	float metabolic_speed = MiscGameplayFunctions.GetWaterMetabolicSpeed(m_MovementState.m_iMovement);
+	// 	//PrintString("metabolic_speed:"+metabolic_speed.ToString());
+	// 	float water = player.GetStatWater().Get();
+	// 	player.GetStatWater().Add( (-metabolic_speed * deltaT) );
 		
-		if ( water <= PlayerConstants.LOW_WATER_THRESHOLD )
-		{		
-			player.AddHealth("GlobalHealth", "Health", -PlayerConstants.LOW_WATER_DAMAGE_PER_SEC * deltaT );
-		}
-	}
+	// 	if ( water <= PlayerConstants.LOW_WATER_THRESHOLD )
+	// 	{		
+	// 		player.AddHealth("GlobalHealth", "Health", -PlayerConstants.LOW_WATER_DAMAGE_PER_SEC * deltaT );
+	// 	}
+	// }
 };

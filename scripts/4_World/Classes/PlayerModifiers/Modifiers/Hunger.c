@@ -26,27 +26,27 @@ class HungerMdfr: ModifierBase
 	{
 
 	}
-
-	override void OnTick(PlayerBase player, float deltaT)
-	{
-		player.GetMovementState(m_MovementState);
-		float energy = player.GetStatEnergy().Get();
-		float metabolic_speed = MiscGameplayFunctions.GetEnergyMetabolicSpeed(m_MovementState.m_iMovement);
-		//PrintString(metabolic_speed.ToString());
+	//following changes amended 2018-11-14 based on guidance from here: https://www.reddit.com/r/dayz/comments/9i45ul/howto_disable_thirsthunger
+	// override void OnTick(PlayerBase player, float deltaT)
+	// {
+	// 	player.GetMovementState(m_MovementState);
+	// 	float energy = player.GetStatEnergy().Get();
+	// 	float metabolic_speed = MiscGameplayFunctions.GetEnergyMetabolicSpeed(m_MovementState.m_iMovement);
+	// 	//PrintString(metabolic_speed.ToString());
 		
-		float energy_delta  = Math.AbsInt(player.GetStatEnergy().Get() - m_LastEnergyLevel);
-		if (energy <  m_LastEnergyLevel) energy_delta = -energy_delta;
-		m_LastEnergyLevel = player.GetStatEnergy().Get();
+	// 	float energy_delta  = Math.AbsInt(player.GetStatEnergy().Get() - m_LastEnergyLevel);
+	// 	if (energy <  m_LastEnergyLevel) energy_delta = -energy_delta;
+	// 	m_LastEnergyLevel = player.GetStatEnergy().Get();
 		
-		player.GetStatEnergy().Add( -metabolic_speed * deltaT );
-		if ( energy <= PlayerConstants.LOW_ENERGY_THRESHOLD )
-		{
-			player.SetMixedSoundState( eMixedSoundStates.HUNGRY );
-			player.AddHealth("GlobalHealth", "Health", -PlayerConstants.LOW_ENERGY_DAMAGE_PER_SEC * deltaT );
-		}
-		else
-		{
-			player.UnsetMixedSoundState( eMixedSoundStates.HUNGRY );
-		}
-	}
+	// 	player.GetStatEnergy().Add( -metabolic_speed * deltaT );
+	// 	if ( energy <= PlayerConstants.LOW_ENERGY_THRESHOLD )
+	// 	{
+	// 		player.SetMixedSoundState( eMixedSoundStates.HUNGRY );
+	// 		player.AddHealth("GlobalHealth", "Health", -PlayerConstants.LOW_ENERGY_DAMAGE_PER_SEC * deltaT );
+	// 	}
+	// 	else
+	// 	{
+	// 		player.UnsetMixedSoundState( eMixedSoundStates.HUNGRY );
+	// 	}
+	// }
 };
