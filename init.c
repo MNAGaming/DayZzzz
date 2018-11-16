@@ -104,6 +104,8 @@ class CustomMission: MissionServer
 		// player.GetInventory().CreateInInventory("Torch");
 		// player.GetInventory().CreateInInventory("Battery9V");
 		// player.GetInventory().CreateInInventory("BatteryCharger");
+		player.GetInventory().CreateInInventory("Compass");
+		player.GetInventory().CreateInInventory("ChernarusMap");
 		
 		ItemBase rags = player.GetInventory().CreateInInventory("Rag");
 		rags.SetQuantity(4);
