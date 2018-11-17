@@ -170,7 +170,7 @@ override void StartingEquipSetup(PlayerBase player, bool clothesChosen)
 	axe = player.GetInventory().CreateInInventory("FirefighterAxe");
 	itemEnt = player.GetInventory().CreateInInventory("Compass");itemBs = ItemBase.Cast(itemEnt);
 	itemEnt = player.GetInventory().CreateInInventory("ChernarusMap");itemBs = ItemBase.Cast(itemEnt);
-	rags = player.GetInventory().CreateInInventory("Rag");itemBs = ItemBase.Cast(itemEnt);
+	rags = player.GetInventory().CreateInInventory("Rag");itemBs = ItemBase.Cast(rags);
 	itemBs.SetQuantity(4);
 
 	player.LocalTakeEntityToHands(primary);
