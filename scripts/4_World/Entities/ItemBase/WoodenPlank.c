@@ -1,3 +1,0 @@
-class WoodenPlank extends ItemBase
-{
-}

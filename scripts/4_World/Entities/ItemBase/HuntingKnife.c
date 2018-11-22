@@ -1,4 +1,0 @@
-class HuntingKnife extends ToolBase
-{
-	
-}

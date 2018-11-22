@@ -1,3 +1,0 @@
-class WoodenLog extends ItemBase
-{
-}

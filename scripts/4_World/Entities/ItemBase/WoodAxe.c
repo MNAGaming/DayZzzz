@@ -1,3 +1,0 @@
-class WoodAxe extends ToolBase
-{
-}
