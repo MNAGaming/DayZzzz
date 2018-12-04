@@ -26,6 +26,12 @@ void main()
 	
 	weather.SetWindMaximumSpeed(30);
 	weather.SetWindFunctionParams(0.1, 1.0, 50);
+	int year = 2018; // Year to Set
+	int month = 6; //Month to Set
+	int day = 21; //Day to Set
+	int hour = 4; // Hour to Set
+	int minute = 30; // Minute to Set
+	GetGame().GetWorld().SetDate(year, month, day, hour, minute);
 }
 
 class CustomMission: MissionServer
