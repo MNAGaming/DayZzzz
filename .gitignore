@@ -35,3 +35,8 @@ _ReSharper*/
 packages/
 init.sqf.old
 *.old
+*.bin
+storage_1/data/vehicles.bin
+storage_1/data/dynamic_010.bin
+storage_1/data/dynamic_004.bin
+storage_1/data/dynamic_001.bin

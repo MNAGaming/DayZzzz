@@ -2,30 +2,27 @@
 void main()
 {
 
+	//INIT WEATHER BEFORE ECONOMY INIT------------------------
+	Weather weather = g_Game.GetWeather();
+
+    weather.MissionWeather(false);    // false = use weather controller from Weather.c
+
+    weather.GetOvercast().Set( Math.RandomFloatInclusive(0.4, 0.6), 1, 0);
+    weather.GetRain().Set( 0, 0, 1);
+    weather.GetFog().Set( Math.RandomFloatInclusive(0.05, 0.1), 1, 0);
+
+
 	Hive ce = CreateHive();
 	if ( ce )
 		ce.InitOffline();
 
-	Weather weather = g_Game.GetWeather();
 
-	weather.GetOvercast().SetLimits( 0.0 , 1.0 );
-	weather.GetRain().SetLimits( 0.0 , 1.0 );
-	weather.GetFog().SetLimits( 0.0 , 0.25 );
-
-	weather.GetOvercast().SetForecastChangeLimits( 0.5, 0.8 );
-	weather.GetRain().SetForecastChangeLimits( 0.1, 0.3 );
-	weather.GetFog().SetForecastChangeLimits( 0.05, 0.10 );
-
-	weather.GetOvercast().SetForecastTimeLimits( 3600 , 3600 );
-	weather.GetRain().SetForecastTimeLimits( 300 , 300 );
-	weather.GetFog().SetForecastTimeLimits( 3600 , 3600 );
-
-	weather.GetOvercast().Set( Math.RandomFloatInclusive(0.0, 0.3), 0, 0);
-	weather.GetRain().Set( Math.RandomFloatInclusive(0.0, 0.2), 0, 0);
-	weather.GetFog().Set( Math.RandomFloatInclusive(0.0, 0.1), 0, 0);
-	
-	weather.SetWindMaximumSpeed(30);
-	weather.SetWindFunctionParams(0.1, 1.0, 50);
+	int year = 2018; // Year to Set
+	int month = 6; //Month to Set
+	int day = 21; //Day to Set
+	int hour = 4; // Hour to Set
+	int minute = 30; // Minute to Set
+	GetGame().GetWorld().SetDate(year, month, day, hour, minute);
 }
 
 class CustomMission: MissionServer
@@ -51,11 +48,13 @@ class CustomMission: MissionServer
 	{
 		player.RemoveAllItems();
 
+		EntityAI itemTop;
 		EntityAI primary;
 		EntityAI itemEnt;
 		ItemBase itemBs;
 		EntityAI axe;
 		EntityAI rags;
+		float rand;
 		int testint = 0;
 		switch (Math.RandomInt(0, 9)) { 
 		case 0:
@@ -180,6 +179,44 @@ class CustomMission: MissionServer
 		player.SetQuickBarEntityShortcut(primary, 0, true);
 		player.SetQuickBarEntityShortcut(rags, 2, true);
 		player.SetQuickBarEntityShortcut(axe, 3, true);
+		
+		itemTop = player.FindAttachmentBySlotName("Body");
+		
+		if ( itemTop )
+		{
+			itemEnt = itemTop.GetInventory().CreateInInventory("Rag");
+			if ( Class.CastTo(itemBs, itemEnt ) )
+				itemBs.SetQuantity(4);
+
+			SetRandomHealth(itemEnt);
+			
+			itemEnt = itemTop.GetInventory().CreateInInventory("RoadFlare");
+			SetRandomHealth(itemEnt);
+		
+			itemEnt = itemTop.GetInventory().CreateInInventory("StoneKnife");
+			SetRandomHealth(itemEnt);
+		}
+
+		rand = Math.RandomFloatInclusive(0.0, 1.0);
+		if ( rand < 0.25 )
+			itemEnt = player.GetInventory().CreateInInventory("SodaCan_Cola");
+		else if ( rand > 0.75 )
+			itemEnt = player.GetInventory().CreateInInventory("SodaCan_Spite");
+		else
+			itemEnt = player.GetInventory().CreateInInventory("SodaCan_Pipsi");
+		
+		SetRandomHealth(itemEnt);
+
+		rand = Math.RandomFloatInclusive(0.0, 1.0);
+		if ( rand < 0.35 )
+			itemEnt = player.GetInventory().CreateInInventory("Apple");
+		else if ( rand > 0.65 )
+			itemEnt = player.GetInventory().CreateInInventory("Pear");
+		else
+			itemEnt = player.GetInventory().CreateInInventory("Plum");
+		
+		SetRandomHealth(itemEnt);
+		
 	//		SetRandomHealth(itemEnt);
 	//		player.GetInventory().CreateInInventory("HuntingKnife");
 	}
